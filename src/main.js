@@ -83,6 +83,7 @@ const config = {
             // optional functions
             nonceFn: () => {},
             userInfoFn: async function(){
+                console.log('getting user info')
                 const response = await fetch('https://www.googleapis.com/oauth2/v1/userinfo', {
                     method: 'GET',
                     headers: {
@@ -99,7 +100,20 @@ const config = {
             accessTokenExpiringNotificationTime: 60,
             expirationCheckInterval: 5
         },
-        disableAutoLogin: true
+        disableAutoLogin: true,
+        events:{
+            onAuthSuccessful: async (settings, authData) => {
+                console.log('auth successful')
+                const response = await fetch('https://www.googleapis.com/oauth2/v1/userinfo', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + authData.accessToken
+                    }
+                })
+                const json = await response.json()
+                window.localStorage.setItem('luigi.auth.identity', JSON.stringify(json))
+            },
+        }
     }
 };
 
