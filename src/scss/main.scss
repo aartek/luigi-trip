@@ -1,0 +1,18 @@
+// font paths
+$fd-icons-path: "~fiori-fundamentals/scss/icons/";
+$fd-scss-font-path: "~fiori-fundamentals/scss/fonts/";
+
+// core styles
+@import "~fiori-fundamentals/scss/core";
+@import "~fiori-fundamentals/scss/helpers";
+@import "~fiori-fundamentals/scss/layout";
+@import "~fiori-fundamentals/scss/mixins";
+
+@import "~fiori-fundamentals/scss/fonts";
+@import "~fiori-fundamentals/scss/icons";
+
+// individual components
+@import "~fiori-fundamentals/scss/components/modal";
+@import "~fiori-fundamentals/scss/components/button";
+
+@import "~@kyma-project/luigi-core/luigi.css"
