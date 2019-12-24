@@ -78,7 +78,7 @@
         accessToken: hashParams['access_token'],
         accessTokenExpirationDate: processExpDate(hashParams['expires_in']),
         scope: hashParams['scope'],
-        idToken: 'fakeprefix.' + window.btoa(JSON.stringify({fake:'data'}))
+        idToken: hashParams['id_token']
       };
 
       setAuthData(data);
