@@ -3,6 +3,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
 /*
  * SplitChunksPlugin is enabled by default and replaced
  * deprecated CommonsChunkPlugin. It automatically identifies modules which
@@ -71,6 +73,7 @@ module.exports = {
 	mode: 'development',
 	target: 'web',
 	plugins: [
+		new CleanWebpackPlugin(),
 		new UglifyJSPlugin(),
 		new HtmlWebpackPlugin(
 			{

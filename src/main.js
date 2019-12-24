@@ -1,6 +1,13 @@
 import '@kyma-project/luigi-core/luigi'
 import "./scss/main.scss"
 
+function createContext(){
+    return {
+        idToken: window.localStorage.getItem('luigi.auth') ?
+                    JSON.parse(window.localStorage.getItem('luigi.auth')).idToken : null 
+    }
+}
+
 const nodes = [{
     pathSegment: 'trip',
     hideFromNav: true,
@@ -16,13 +23,21 @@ const nodes = [{
             anonymousAccess: true
         },
         {
-            pathSegment: 'car',
-            label: 'My car',
-            icon: 'car-rental',
+            pathSegment: 'todo',
+            label: 'To-Do',
+            icon: 'list',
             loadingIndicator: {
                 enabled: false
             },
-            viewUrl: ''
+            viewUrl: 'http://localhost:8082',
+            context: createContext()
+        },
+        {
+            pathSegment: 'car',
+            label: 'My car',
+            icon: 'car-rental',
+            viewUrl: 'http://localhost:8081',
+            context: createContext()
         },
         {
             pathSegment: 'calculator',
@@ -31,20 +46,9 @@ const nodes = [{
             loadingIndicator: {
                 enabled: false
             },
-            viewUrl: '',
-            anonymousAccess: true
-        },
-        {
-            pathSegment: 'todo',
-            label: 'To-Do',
-            icon: 'list',
-            loadingIndicator: {
-                enabled: false
-            },
-            viewUrl: 'http://localhost:8081',
-            context: {
-                identity: JSON.parse(window.localStorage.getItem('luigi.auth.identity'))
-            }
+            viewUrl: 'http://localhost:4200',
+            anonymousAccess: true,
+            context: createContext()
         }
     ]
 }];
@@ -75,47 +79,16 @@ const config = {
             oAuthData: {
                 client_id: '720905686784-vds0igf53jlbkilm8cq0t3fg3m3u5kka.apps.googleusercontent.com',
                 scope: 'openid https://www.googleapis.com/auth/userinfo.email profile',
-                // optional parameters
                 redirect_uri: '/callback.html',
-                response_type: 'token',
-                // all specified values inside oAuthData will be added to the oauth call, i.e display="popup",
-            },
-            // optional functions
-            nonceFn: () => {},
-            userInfoFn: async function(){
-                console.log('getting user info')
-                const response = await fetch('https://www.googleapis.com/oauth2/v1/userinfo', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': 'Bearer ' + authData.accessToken
-                    }
-                })
-                const json = await response.json()
-                window.localStorage.setItem('luigi.auth.identity', JSON.stringify(json))
+                response_type: 'id_token token',
+                nonce: 'blah'
             },
             logoutFn: async (settings, authData, logoutCallback) => {
                 await fetch(`https://accounts.google.com/o/oauth2/revoke?token=${authData.accessToken}`)
                 logoutCallback()
-            },
-            accessTokenExpiringNotificationTime: 60,
-            expirationCheckInterval: 5
+            }
         },
         disableAutoLogin: true,
-        events:{
-            onAuthSuccessful: async (settings, authData) => {
-                console.log('auth successful')
-                const response = await fetch('https://www.googleapis.com/oauth2/v1/userinfo', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': 'Bearer ' + authData.accessToken
-                    }
-                })
-                const json = await response.json()
-                window.localStorage.setItem('luigi.auth.identity', JSON.stringify(json))
-            },
-        }
     }
 };
-
-console.log(config)
 window.Luigi.setConfig(config);
