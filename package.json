@@ -3,19 +3,22 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "npx webpack --config webpack.dev.js"
+    "start": "npm-run-all -p server buildDev",
+    "buildDev": "npx webpack --config webpack.config.js --env development --watch",
+    "server": "mkdir -p dist && npx http-server dist",
+    "build": "npx webpack --config webpack.config.js --env production"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@babel/core": "^7.7.5",
-    "@babel/preset-env": "^7.7.6",
     "@kyma-project/luigi-client": "^0.7.2",
     "@kyma-project/luigi-core": "^0.7.2",
-    "babel-loader": "^8.0.6",
     "fiori-fundamentals": "^1.7.3"
   },
   "devDependencies": {
+    "@babel/core": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
+    "babel-loader": "^8.0.6",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.1.1",
@@ -25,6 +28,7 @@
     "http-server": "^0.12.0",
     "mini-css-extract-plugin": "^0.8.0",
     "node-sass": "^4.13.0",
+    "npm-run-all": "^4.1.5",
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.1",
     "uglifyjs-webpack-plugin": "^2.2.0",
