@@ -1,13 +1,35 @@
+# Luigi Trip
+
+Bike Trip tool based on Luigi 
+
+## Running
+
+### Instal dependencies
 ```
 npm install
 ```
 
+### Start in development mode
 ```
-npx webpack --config webpack.dev.js
+npm start
+```
+
+## Build in production mode
+
+```
+npm run build
+```
+
+## Configuration
+
+Configure routes for development/production mode in `src/config/routes.ENV.js`
+
+
+## Deployment
+```
+npm run build
 ```
 
 ```
-npx http-server dist
+firebase deploy
 ```
-
-http://localhost:8080

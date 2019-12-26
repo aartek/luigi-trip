@@ -1,5 +1,6 @@
 import '@kyma-project/luigi-core/luigi'
 import "./scss/main.scss"
+import {nodes} from 'config'
 
 function createContext(){
     return {
@@ -8,50 +9,9 @@ function createContext(){
     }
 }
 
-const nodes = [{
-    pathSegment: 'trip',
-    hideFromNav: true,
-    anonymousAccess: true,
-    children: [{
-            pathSegment: 'weather',
-            label: 'Weather',
-            icon: 'weather-proofing',
-            loadingIndicator: {
-                enabled: false
-            },
-            viewUrl: 'http://pogoda.aknakn.eu',
-            anonymousAccess: true
-        },
-        {
-            pathSegment: 'todo',
-            label: 'To-Do',
-            icon: 'list',
-            loadingIndicator: {
-                enabled: false
-            },
-            viewUrl: 'http://localhost:8082',
-            context: createContext()
-        },
-        {
-            pathSegment: 'car',
-            label: 'My car',
-            icon: 'car-rental',
-            viewUrl: 'http://localhost:8081',
-            context: createContext()
-        },
-        {
-            pathSegment: 'calculator',
-            label: 'Trip calculator',
-            icon: 'simulate',
-            loadingIndicator: {
-                enabled: false
-            },
-            viewUrl: 'http://localhost:4200',
-            anonymousAccess: true,
-            context: createContext()
-        }
-    ]
-}];
+nodes.forEach(rootNode => {
+    rootNode.children.forEach(node => node.context = createContext)
+})
 
 const config = {
     settings: {
