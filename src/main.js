@@ -10,7 +10,9 @@ function createContext(){
 }
 
 nodes.forEach(rootNode => {
-    rootNode.children.forEach(node => node.context = createContext)
+    rootNode.children.forEach(node => {
+        node.context = createContext()
+    })
 })
 
 const config = {
