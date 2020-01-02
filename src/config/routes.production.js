@@ -25,7 +25,7 @@ export const nodes = [{
             pathSegment: 'car',
             label: 'My car',
             icon: 'car-rental',
-            viewUrl: 'https://trip-calculator.web.app',
+            viewUrl: 'https://trip-calculator-1de37.web.app',
         },
         {
             pathSegment: 'calculator',
