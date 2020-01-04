@@ -5,7 +5,7 @@ import {nodes} from 'config'
 function createContext(){
     return {
         idToken: window.localStorage.getItem('luigi.auth') ?
-                    JSON.parse(window.localStorage.getItem('luigi.auth')).idToken : null 
+                    JSON.parse(window.localStorage.getItem('luigi.auth')).idToken : null
     }
 }
 
@@ -19,8 +19,7 @@ const config = {
     settings: {
         responsiveNavigation: 'semiCollapsible',
         header: {
-            // logo: "/assets/images/logo.svg",
-            logo: '',
+            logo: "/assets/logo.svg",
             title: "Trip"
         }
     },
