@@ -15,7 +15,9 @@ module.exports = env => {
   }
   console.log(`Running webpack in ${env} mode`)
   return {
-    entry: './src/main.js',
+    entry: {
+      main: './src/main.js',
+    },
     module: {
       rules: [{
           test: /\.m?js$/,
@@ -61,30 +63,32 @@ module.exports = env => {
       filename: '[name].[chunkhash].js',
       path: path.resolve(__dirname, 'dist')
     },
-
     mode: env,
-    target: 'web',
     devtool: env === 'development' ? 'source-map' : 'none',
+    target: 'web',
     plugins: [
       new CleanWebpackPlugin(),
-      new UglifyJSPlugin(),
-      new HtmlWebpackPlugin({
-        inject: true,
-        template: path.resolve(__dirname, 'src', 'index.html')
-      }),
-      new MiniCssExtractPlugin({
-        filename: "assets/[name].[contenthash].css"
-      }),
       new CopyPlugin([{
-        from: '*.html',
+        from: '**/*.html',
         context: 'src'
       }, {
         from: '*.svg',
         to: 'assets',
         context: 'src/assets'
-      }])
+      }]),
+      new UglifyJSPlugin({
+        sourceMap: env === 'development' ? true : false
+      }),
+      new HtmlWebpackPlugin({
+        inject: true,
+        chunks: ['main'],
+        template: path.resolve(__dirname, 'src', 'index.html'),
+        filename: 'index.html'
+      }),
+      new MiniCssExtractPlugin({
+        filename: "assets/[name].[contenthash].css"
+      })
     ],
-
     resolve: {
       alias: {
         config: path.join(__dirname, 'src', 'config', `routes.${env}.js`)

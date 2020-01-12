@@ -11,8 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@kyma-project/luigi-client": "^0.7.2",
-    "@kyma-project/luigi-core": "^0.7.2",
+    "@kyma-project/luigi-client": "^0.7.3",
+    "@kyma-project/luigi-core": "^0.7.3",
     "fiori-fundamentals": "^1.7.3"
   },
   "devDependencies": {
