@@ -9,7 +9,7 @@ export const nodes = [{
             loadingIndicator: {
                 enabled: false
             },
-            viewUrl: 'http://pogoda.aknakn.eu',
+            viewUrl: 'https://trip-weather.web.app',
             anonymousAccess: true
         },
         {
@@ -19,13 +19,13 @@ export const nodes = [{
             loadingIndicator: {
                 enabled: false
             },
-            viewUrl: 'http://localhost:8082',
+            viewUrl: 'https://trip-todo.web.app',
         },
         {
             pathSegment: 'car',
             label: 'My car',
             icon: 'car-rental',
-            viewUrl: 'http://localhost:8081',
+            viewUrl: 'https://trip-my-car.web.app',
         },
         {
             pathSegment: 'calculator',
