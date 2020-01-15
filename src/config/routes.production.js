@@ -9,7 +9,7 @@ export const nodes = [{
             loadingIndicator: {
                 enabled: false
             },
-            viewUrl: 'http://pogoda.aknakn.eu',
+            viewUrl: 'https://trip-weather.web.app',
             anonymousAccess: true
         },
         {
