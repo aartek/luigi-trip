@@ -34,7 +34,7 @@ export const nodes = [{
             loadingIndicator: {
                 enabled: false
             },
-            viewUrl: 'http://localhost:4200',
+            viewUrl: 'https://trip-calculator-1de37.web.app',
             anonymousAccess: true,
         }
     ]
