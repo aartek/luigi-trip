@@ -1,8 +1,7 @@
-import '@kyma-project/luigi-core/luigi'
+import '@luigi-project/core/luigi'
+import oAuth2ImplicitGrant from '@luigi-project/plugin-auth-oauth2';
 import "./scss/main.scss"
-import {
-  nodes
-} from 'config'
+import {nodes} from 'config'
 
 
 function createContext() {
@@ -39,6 +38,7 @@ const config = {
   auth: {
     use: 'oAuth2ImplicitGrant',
     oAuth2ImplicitGrant: {
+      idpProvider: oAuth2ImplicitGrant,
       authorizeUrl: 'https://accounts.google.com/o/oauth2/v2/auth',
       logoutUrl: '/',
       post_logout_redirect_uri: '/',

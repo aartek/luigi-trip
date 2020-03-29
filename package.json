@@ -11,9 +11,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@kyma-project/luigi-client": "^0.7.3",
-    "@kyma-project/luigi-core": "^0.7.3",
-    "fiori-fundamentals": "^1.7.3"
+    "@luigi-project/client": "^1.0.0",
+    "@luigi-project/core": "^1.0.0",
+    "@luigi-project/plugin-auth-oauth2": "^1.0.0",
+    "fundamental-styles": "^0.7.0"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
