@@ -36,8 +36,8 @@ const config = {
     contextSwitcher: false
   },
   auth: {
-    use: 'oAuth2ImplicitGrant',
-    oAuth2ImplicitGrant: {
+    use: 'authConfig',
+    authConfig: {
       idpProvider: oAuth2ImplicitGrant,
       authorizeUrl: 'https://accounts.google.com/o/oauth2/v2/auth',
       logoutUrl: '/',

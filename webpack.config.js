@@ -20,21 +20,21 @@ module.exports = env => {
     },
     module: {
       rules: [{
-          test: /\.m?js$/,
-          exclude: /(node_modules|bower_components)/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              presets: ['@babel/preset-env']
-            }
+        test: /\.m?js$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env']
           }
-        },
+        }
+      },
         {
           test: /\.(scss|css)$/,
 
           use: [{
-              loader: 'style-loader'
-            },
+            loader: 'style-loader'
+          },
             MiniCssExtractPlugin.loader,
             {
               loader: 'css-loader'
@@ -75,7 +75,9 @@ module.exports = env => {
         from: '*.svg',
         to: 'assets',
         context: 'src/assets'
-      }]),
+      },
+        'node_modules/@luigi-project/plugin-auth-oauth2/callback.html',
+      ]),
       new UglifyJSPlugin({
         sourceMap: env === 'development' ? true : false
       }),
