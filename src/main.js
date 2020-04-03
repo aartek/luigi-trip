@@ -41,7 +41,6 @@ const config = {
       idpProvider: oAuth2ImplicitGrant,
       authorizeUrl: 'https://accounts.google.com/o/oauth2/v2/auth',
       logoutUrl: '/',
-      post_logout_redirect_uri: '/',
       oAuthData: {
         client_id: '720905686784-vds0igf53jlbkilm8cq0t3fg3m3u5kka.apps.googleusercontent.com',
         scope: 'openid https://www.googleapis.com/auth/userinfo.email profile',
@@ -50,7 +49,7 @@ const config = {
       },
       logoutFn: async (settings, authData, logoutCallback) => {
         await fetch(`https://accounts.google.com/o/oauth2/revoke?token=${authData.accessToken}`)
-        logoutCallback()
+        logoutCallback(window.location.origin)
       }
     },
     disableAutoLogin: true

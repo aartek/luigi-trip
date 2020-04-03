@@ -67,17 +67,23 @@ module.exports = env => {
     devtool: env === 'development' ? 'source-map' : 'none',
     target: 'web',
     plugins: [
-      new CleanWebpackPlugin(),
+      new CleanWebpackPlugin({
+        verbose: true
+      }),
       new CopyPlugin([{
-        from: '**/*.html',
-        context: 'src'
-      }, {
-        from: '*.svg',
-        to: 'assets',
-        context: 'src/assets'
-      },
-        'node_modules/@luigi-project/plugin-auth-oauth2/callback.html',
-      ]),
+          from: '**/*.html',
+          context: 'src',
+
+        }, {
+          from: '*.svg',
+          to: 'assets',
+          context: 'src/assets'
+        },
+          'node_modules/@luigi-project/plugin-auth-oauth2/callback.html',
+        ], {
+          copyUnmodified: true //fixes conflict with clean webpack plugin https://github.com/webpack-contrib/copy-webpack-plugin/issues/261#issuecomment-552550859
+        }
+      ),
       new UglifyJSPlugin({
         sourceMap: env === 'development' ? true : false
       }),
