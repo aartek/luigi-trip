@@ -2,6 +2,8 @@
 
 Bike Trip tool based on [Luigi](https://github.com/SAP/luigi).
 
+This is an example app described in [this article](https://medium.com/swlh/luigi-micro-fronteds-orchestrator-8c0eca710151?source=friends_link&sk=1cd1bf7d608ad64687a4b11bef6d59fb)
+
 This is an microfrontends orchestrator for a couple of apps helping with organizing a trip:
 - https://github.com/aartek/openweathermap-weekend-forecast/tree/firebase
 - https://github.com/aartek/luigi-trip-my-car
