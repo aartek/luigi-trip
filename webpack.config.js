@@ -6,14 +6,16 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const {
   CleanWebpackPlugin
 } = require('clean-webpack-plugin');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+
 
 module.exports = env => {
   if (!env) {
     console.error('run webpack with `--env development` or `--env production`')
     throw new Error("env not set")
   }
-  console.log(`Running webpack in ${env} mode`)
+  const isProd = env.production
+
   return {
     entry: {
       main: './src/main.js',
@@ -33,13 +35,12 @@ module.exports = env => {
         },
         {
           test: /\.(scss|css)$/,
-
-          use: [{
-            loader: 'style-loader'
-          },
-            MiniCssExtractPlugin.loader,
+          use: [
             {
-              loader: 'css-loader'
+              loader: MiniCssExtractPlugin.loader
+            },
+            {
+              loader: 'css-loader',
             },
             {
               loader: 'sass-loader'
@@ -65,40 +66,39 @@ module.exports = env => {
       filename: '[name].[chunkhash].js',
       path: path.resolve(__dirname, 'dist')
     },
-    mode: env,
-    devtool: env === 'development' ? 'source-map' : 'none',
+    mode: isProd ? "production" : "development",
+    devtool: isProd ? undefined : 'source-map',
     target: 'web',
     plugins: [
       new CleanWebpackPlugin({
         verbose: true
       }),
-      new CopyPlugin([{
-          from: '**/*.html',
-          context: 'src',
-        },
-          {
-            from: '*.svg',
-            to: 'assets',
-            context: 'src/assets'
-          },
-          'node_modules/@luigi-project/plugin-auth-oauth2/callback.html',
-          {
-            from:
-              'node_modules/@sap-theming/theming-base-content/content/Base/baseLib/sap_base_fiori/fonts',
-            to: './fonts'
-          },
-          {
-            from:
-              'node_modules/@sap-theming/theming-base-content/content/Base/baseLib/sap_fiori_3/fonts',
-            to: './fonts'
-          }
-        ], {
-          copyUnmodified: true //fixes conflict with clean webpack plugin https://github.com/webpack-contrib/copy-webpack-plugin/issues/261#issuecomment-552550859
+      new CopyPlugin({
+          patterns: [
+            {
+              from: '**/*.html',
+              context: 'src',
+            },
+            {
+              from: '*.svg',
+              to: 'assets',
+              context: 'src/assets'
+            },
+            'node_modules/@luigi-project/plugin-auth-oauth2/callback.html',
+            {
+              from:
+                'node_modules/@sap-theming/theming-base-content/content/Base/baseLib/sap_base_fiori/fonts',
+              to: './fonts'
+            },
+            {
+              from:
+                'node_modules/@sap-theming/theming-base-content/content/Base/baseLib/sap_fiori_3/fonts',
+              to: './fonts'
+            }
+          ],
+          // copyUnmodified: true //fixes conflict with clean webpack plugin https://github.com/webpack-contrib/copy-webpack-plugin/issues/261#issuecomment-552550859
         }
       ),
-      new UglifyJSPlugin({
-        sourceMap: env === 'development' ? true : false
-      }),
       new HtmlWebpackPlugin({
         inject: true,
         chunks: ['main'],
@@ -117,23 +117,20 @@ module.exports = env => {
     ],
     resolve: {
       alias: {
-        config: path.join(__dirname, 'src', 'config', `routes.${env}.js`)
+        config: path.join(__dirname, 'src', 'config', `routes.${isProd ? 'production' : 'development'}.js`)
       }
     },
 
     optimization: {
+      minimize: true,
+      minimizer: [
+        new TerserPlugin()
+      ],
       splitChunks: {
-        cacheGroups: {
-          vendors: {
-            priority: -10,
-            test: /[\\/]node_modules[\\/]/
-          }
-        },
-
-        chunks: 'async',
-        minChunks: 1,
-        minSize: 30000,
-        name: true
+        minSize: {
+          javascript: 30000,
+          webassembly: 50000,
+        }
       }
     }
   }
