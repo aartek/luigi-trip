@@ -40,7 +40,6 @@ const config = {
     authConfig: {
       idpProvider: oAuth2ImplicitGrant,
       authorizeUrl: 'https://accounts.google.com/o/oauth2/v2/auth',
-      logoutUrl: '/',
       oAuthData: {
         client_id: '720905686784-vds0igf53jlbkilm8cq0t3fg3m3u5kka.apps.googleusercontent.com',
         scope: 'openid https://www.googleapis.com/auth/userinfo.email profile',
@@ -49,10 +48,17 @@ const config = {
       },
       logoutFn: async (settings, authData, logoutCallback) => {
         await fetch(`https://accounts.google.com/o/oauth2/revoke?token=${authData.accessToken}`)
+        window.sessionStorage.setItem('signed-out', true)
         logoutCallback(window.location.origin)
       }
     },
-    disableAutoLogin: true
+    disableAutoLogin: (() => {
+      if(JSON.parse(window.sessionStorage.getItem('signed-out'))){
+        window.sessionStorage.setItem('signed-out', false)
+        return true
+      }
+      return !JSON.parse(window.localStorage.getItem('auto-login'))
+    })()
   }
 };
 window.Luigi.setConfig(config);

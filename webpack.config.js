@@ -17,18 +17,20 @@ module.exports = env => {
   return {
     entry: {
       main: './src/main.js',
+      settings: './src/settings.js'
     },
     module: {
-      rules: [{
-        test: /\.m?js$/,
-        exclude: /(node_modules|bower_components)/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env']
+      rules: [
+        {
+          test: /\.m?js$/,
+          exclude: /(node_modules|bower_components)/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env']
+            }
           }
-        }
-      },
+        },
         {
           test: /\.(scss|css)$/,
 
@@ -73,13 +75,23 @@ module.exports = env => {
       new CopyPlugin([{
           from: '**/*.html',
           context: 'src',
-
-        }, {
-          from: '*.svg',
-          to: 'assets',
-          context: 'src/assets'
         },
+          {
+            from: '*.svg',
+            to: 'assets',
+            context: 'src/assets'
+          },
           'node_modules/@luigi-project/plugin-auth-oauth2/callback.html',
+          {
+            from:
+              'node_modules/@sap-theming/theming-base-content/content/Base/baseLib/sap_base_fiori/fonts',
+            to: './fonts'
+          },
+          {
+            from:
+              'node_modules/@sap-theming/theming-base-content/content/Base/baseLib/sap_fiori_3/fonts',
+            to: './fonts'
+          }
         ], {
           copyUnmodified: true //fixes conflict with clean webpack plugin https://github.com/webpack-contrib/copy-webpack-plugin/issues/261#issuecomment-552550859
         }
@@ -92,6 +104,12 @@ module.exports = env => {
         chunks: ['main'],
         template: path.resolve(__dirname, 'src', 'index.html'),
         filename: 'index.html'
+      }),
+      new HtmlWebpackPlugin({
+        inject: true,
+        chunks: ['settings'],
+        template: path.resolve(__dirname, 'src', 'settings.html'),
+        filename: 'settings.html'
       }),
       new MiniCssExtractPlugin({
         filename: "assets/[name].[contenthash].css"
